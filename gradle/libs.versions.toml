@@ -26,6 +26,9 @@ junit = "4.13.2"
 androidxJunit = "1.2.1"
 espressoCore = "3.6.1"
 
+# Glide
+glideCompose = "1.0.0-beta01"
+
 [libraries]
 # AndroidX Core & UI
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -63,6 +66,9 @@ logging-interceptor = { group = "com.squareup.okhttp3", name = "logging-intercep
 
 # Kotlinx Serialization
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
+
+# Glide
+glideCompose = { module = "com.github.bumptech.glide:compose", version.ref = "glideCompose" }
 
 # Testing
 junit = { group = "junit", name = "junit", version.ref = "junit" }
