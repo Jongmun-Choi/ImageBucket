@@ -66,7 +66,7 @@ fun SearchScreen(viewModel: SearchViewModel = hiltViewModel()) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text("Error loading results.")
                             Button(onClick = { searchResults.retry() }) {
-                                Text("Retry")
+                                Text("재시도")
                             }
                         }
                     }
