@@ -72,27 +72,23 @@ fun SearchScreen(viewModel: SearchViewModel = hiltViewModel()) {
                     }
                 }
                 is LoadState.NotLoading -> {
-                    if (searchResults.itemCount == 0 && uiState.query.isNotBlank()) {
-                        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-                            Text("No results found for \"${uiState.query}\"")
-                        }
-                    } else {
-                        LazyVerticalGrid(
-                            columns = GridCells.Fixed(2),
-                            contentPadding = PaddingValues(4.dp),
-                            verticalArrangement = Arrangement.spacedBy(4.dp),
-                            horizontalArrangement = Arrangement.spacedBy(4.dp)
-                        ) {
-                            items(
-                                count = searchResults.itemCount,
-                                key = { index -> searchResults.peek(index)?.thumbnailUrl ?: "" }
-                            ) { index ->
-                                searchResults[index]?.let { item ->
-                                    ImageItemCard(item = item, onSaveClick = { viewModel.toggleSave(item) })
-                                }
+
+                    LazyVerticalGrid(
+                        columns = GridCells.Fixed(2),
+                        contentPadding = PaddingValues(4.dp),
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
+                        horizontalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        items(
+                            count = searchResults.itemCount,
+                            key = { index -> searchResults.peek(index)?.thumbnailUrl ?: "" }
+                        ) { index ->
+                            searchResults[index]?.let { item ->
+                                ImageItemCard(item = item, onSaveClick = { viewModel.toggleSave(item) })
                             }
                         }
                     }
+
                 }
             }
         }
