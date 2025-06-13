@@ -7,7 +7,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 
 sealed class Screen(val route: String, val title: String, val icon: ImageVector) {
     data object Search : Screen("search", "Search", Icons.Default.Search)
-    data object Locker : Screen("locker", "Locker", Icons.Default.Favorite)
+    data object Locker : Screen("bucket", "Bucket", Icons.Default.Favorite)
 }
 
 val bottomNavItems = listOf(
