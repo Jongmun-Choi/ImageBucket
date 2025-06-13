@@ -4,6 +4,6 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SearchResponse(
-    @SerialName("documents") val documents: List<ItemDocument>
+data class VideoResponse(
+    @SerialName("documents") val documents: List<VideoDocument>
 )

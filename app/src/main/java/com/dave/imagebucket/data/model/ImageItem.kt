@@ -1,10 +1,11 @@
 package com.dave.imagebucket.data.model
 
+import com.dave.imagebucket.data.database.SearchResultEntity
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
-class ImageItem(
+data class ImageItem(
     val thumbnailUrl: String,
     val dateTime: String,
     val isSaved: Boolean = false
@@ -18,4 +19,12 @@ class ImageItem(
         // 4. ZonedDateTime 객체를 원하는 형식의 문자열로 변환
         return zonedDateTime.format(outputFormatter)
     }
+}
+
+fun SearchResultEntity.toImageItem(): ImageItem {
+    return ImageItem(
+        thumbnailUrl = this.thumbnailUrl,
+        dateTime = this.dateTime,
+        isSaved = false
+    )
 }
