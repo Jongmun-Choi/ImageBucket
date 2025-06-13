@@ -13,10 +13,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class BucketViewModel @Inject constructor(
-    private val lockerRepository: BucketRepository
+    private val bucketRepository: BucketRepository
 ) : ViewModel() {
 
-    val lockerItems: StateFlow<List<BucketItemEntity>> = lockerRepository.getBucketItems()
+    val bucketItems: StateFlow<List<BucketItemEntity>> = bucketRepository.getBucketItems()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
@@ -25,7 +25,7 @@ class BucketViewModel @Inject constructor(
 
     fun removeItem(item: BucketItemEntity) {
         viewModelScope.launch {
-            lockerRepository.deleteItem(item.thumbnailUrl)
+            bucketRepository.deleteItem(item.thumbnailUrl)
         }
     }
 }
