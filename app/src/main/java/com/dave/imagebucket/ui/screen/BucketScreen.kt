@@ -26,7 +26,7 @@ fun BucketScreen(viewModel: BucketViewModel = hiltViewModel()) {
 
     if (bucketItems.isEmpty()) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text("Your locker is empty. Save items from the search screen.")
+            Text("저장된 이미지가 없습니다.\n이미지를 검색하여 이미지를 저장해주세요.")
         }
     } else {
         LazyVerticalGrid(
