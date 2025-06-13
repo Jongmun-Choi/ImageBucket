@@ -28,6 +28,7 @@ espressoCore = "3.6.1"
 
 # Glide
 glideCompose = "1.0.0-beta01"
+pagingComposeAndroid = "3.3.6"
 
 [libraries]
 # AndroidX Core & UI
@@ -77,6 +78,7 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+androidx-paging-compose-android = { group = "androidx.paging", name = "paging-compose-android", version.ref = "pagingComposeAndroid" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
