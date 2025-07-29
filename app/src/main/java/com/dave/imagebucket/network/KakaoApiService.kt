@@ -12,7 +12,6 @@ interface KakaoApiService {
 
     @GET("v2/search/image")
     suspend fun searchImages(
-        @Header("Authorization") auth: String = "KakaoAK ${BuildConfig.kakao_api_key}",
         @Query("query") query: String,
         @Query("page") page: Int,
         @Query("size") size: Int = 15
@@ -20,7 +19,6 @@ interface KakaoApiService {
 
     @GET("v2/search/vclip")
     suspend fun searchVideos(
-        @Header("Authorization") auth: String = "KakaoAK ${BuildConfig.kakao_api_key}",
         @Query("query") query: String,
         @Query("page") page: Int,
         @Query("size") size: Int = 15

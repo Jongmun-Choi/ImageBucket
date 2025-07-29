@@ -66,14 +66,14 @@ class SearchViewModel @Inject constructor(
         _currentQuery.value = _uiState.value.query
     }
 
-    fun toggleSave(item: ImageItem) {
-        viewModelScope.launch {
+    suspend fun toggleSave(item: ImageItem) {
+//        viewModelScope.launch {
             if (item.isSaved) {
                 bucketRepository.deleteItem(item.thumbnailUrl)
             } else {
                 bucketRepository.saveItem(item)
             }
-        }
+//        }
     }
 }
 

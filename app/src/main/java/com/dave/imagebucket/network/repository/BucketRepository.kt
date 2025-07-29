@@ -4,13 +4,14 @@ import com.dave.imagebucket.data.database.BucketItemEntity
 import com.dave.imagebucket.data.database.BucketItemDao
 import com.dave.imagebucket.data.model.ImageItem
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class BucketRepository @Inject constructor(private val bucketDao: BucketItemDao) {
 
-    fun getBucketItems(): Flow<List<BucketItemEntity>> = bucketDao.getAllItems()
+    fun getBucketItems(): Flow<List<ImageItem>> = bucketDao.getAllItems().map { entities -> entities.map { ImageItem(it.thumbnailUrl, it.dateTime) } }
 
     suspend fun saveItem(item: ImageItem) {
         val lockerItem = BucketItemEntity(
@@ -24,5 +25,4 @@ class BucketRepository @Inject constructor(private val bucketDao: BucketItemDao)
         bucketDao.delete(id)
     }
 
-    fun isItemSaved(id: String): Flow<Boolean> = bucketDao.isSaved(id)
 }

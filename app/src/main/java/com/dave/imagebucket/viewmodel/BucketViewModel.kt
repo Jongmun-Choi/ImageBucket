@@ -3,6 +3,7 @@ package com.dave.imagebucket.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.dave.imagebucket.data.database.BucketItemEntity
+import com.dave.imagebucket.data.model.ImageItem
 import com.dave.imagebucket.network.repository.BucketRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.SharingStarted
@@ -16,14 +17,14 @@ class BucketViewModel @Inject constructor(
     private val bucketRepository: BucketRepository
 ) : ViewModel() {
 
-    val bucketItems: StateFlow<List<BucketItemEntity>> = bucketRepository.getBucketItems()
+    val bucketItems: StateFlow<List<ImageItem>> = bucketRepository.getBucketItems()
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5000),
             initialValue = emptyList()
         )
 
-    fun removeItem(item: BucketItemEntity) {
+    fun removeItem(item: ImageItem) {
         viewModelScope.launch {
             bucketRepository.deleteItem(item.thumbnailUrl)
         }

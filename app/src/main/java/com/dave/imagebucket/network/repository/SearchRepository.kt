@@ -30,7 +30,7 @@ class SearchRepository @Inject constructor(
         return Pager(
             config = PagingConfig(
                 pageSize = 30,
-                enablePlaceholders = false
+                enablePlaceholders = true
             ),
             remoteMediator = SearchRemoteMediator( // RemoteMediator 설정
                 query = query,
