@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
@@ -16,27 +17,30 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.dave.imagebucket.data.model.ImageItem
 import com.dave.imagebucket.ui.components.ImageItemCard
 import com.dave.imagebucket.viewmodel.SearchViewModel
+import kotlinx.coroutines.launch
 
 @Composable
 fun SearchScreen(viewModel: SearchViewModel = hiltViewModel()) {
-    val uiState by viewModel.uiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val scrollState = rememberLazyGridState()
     val searchResults: LazyPagingItems<ImageItem> = viewModel.searchResults.collectAsLazyPagingItems()
     val focusManager = LocalFocusManager.current
-
+    val scope = rememberCoroutineScope()
     Column(modifier = Modifier.fillMaxSize()) {
         OutlinedTextField(
             value = uiState.query,
@@ -75,6 +79,7 @@ fun SearchScreen(viewModel: SearchViewModel = hiltViewModel()) {
 
                     LazyVerticalGrid(
                         columns = GridCells.Fixed(2),
+                        state = scrollState,
                         contentPadding = PaddingValues(4.dp),
                         verticalArrangement = Arrangement.spacedBy(4.dp),
                         horizontalArrangement = Arrangement.spacedBy(4.dp)
@@ -84,7 +89,7 @@ fun SearchScreen(viewModel: SearchViewModel = hiltViewModel()) {
                             key = { index -> searchResults.peek(index)?.thumbnailUrl ?: "" }
                         ) { index ->
                             searchResults[index]?.let { item ->
-                                ImageItemCard(item = item, onSaveClick = { viewModel.toggleSave(item) })
+                                ImageItemCard(item = item, onSaveClick = { scope.launch { viewModel.toggleSave(item) }  })
                             }
                         }
                     }

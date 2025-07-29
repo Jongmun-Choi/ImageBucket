@@ -8,7 +8,6 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,11 +17,15 @@ import com.dave.imagebucket.data.model.ImageItem
 import com.dave.imagebucket.ui.components.ImageItemCard
 import com.dave.imagebucket.viewmodel.BucketViewModel
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun BucketScreen(viewModel: BucketViewModel = hiltViewModel()) {
 
-    val bucketItems by viewModel.bucketItems.collectAsState()
+    val bucketItems by viewModel.bucketItems.collectAsStateWithLifecycle()
+    val scrollState = rememberLazyGridState()
+
 
     if (bucketItems.isEmpty()) {
         Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
@@ -31,6 +34,7 @@ fun BucketScreen(viewModel: BucketViewModel = hiltViewModel()) {
     } else {
         LazyVerticalGrid(
             columns = GridCells.Fixed(2),
+            state = scrollState,
             contentPadding = PaddingValues(4.dp),
             verticalArrangement = Arrangement.spacedBy(4.dp),
             horizontalArrangement = Arrangement.spacedBy(4.dp)

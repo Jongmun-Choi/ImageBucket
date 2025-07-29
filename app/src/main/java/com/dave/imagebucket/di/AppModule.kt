@@ -2,6 +2,7 @@ package com.dave.imagebucket.di
 
 import android.content.Context
 import androidx.room.Room
+import com.dave.imagebucket.BuildConfig
 import com.dave.imagebucket.data.database.AppDatabase
 import com.dave.imagebucket.data.database.BucketItemDao
 import com.dave.imagebucket.data.database.RemoteKeyDao
@@ -14,6 +15,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import kotlinx.serialization.json.Json
+import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -26,11 +28,24 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideInterceptor(): Interceptor {
+        return Interceptor { chain ->
+            val requestBuilder = chain.request().newBuilder()
+            val authText = "KakaoAK ${BuildConfig.kakao_api_key}"
+            requestBuilder.addHeader("Authorization", authText)
+
+            chain.proceed(requestBuilder.build())
+        }
+    }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(HttpLoggingInterceptor().apply {
                 level = HttpLoggingInterceptor.Level.BODY
             })
+            .addInterceptor(interceptor)
             .build()
     }
 
